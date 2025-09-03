@@ -11,4 +11,5 @@ public readonly struct GameplayState(PlayState playState)
     public int NotesHit => playState.scoreState.CurrentTotals.totalNotesHit;
     public int NotesMissed => playState.scoreState.TotalMissedNotes;
     public string FullComboState => playState.fullComboState.ToString();
+    public int NotesHitPerfectly => playState.scoreState.CurrentTotals.flawlessPlusCount;
 }
