@@ -101,7 +101,7 @@ internal class Patches
             return;
         }
 
-        if (noteState.timingAccuracy == NoteTimingAccuracy.Failed)
+        if (noteState.timingAccuracy is NoteTimingAccuracy.Failed)
         {
             BroadcastScoreUpdate(playState);
             return;
@@ -114,5 +114,17 @@ internal class Patches
         }
         
         BroadcastScoreUpdate(playState);
+    }
+
+    [HarmonyPatch(typeof(DomeHud), nameof(DomeHud.AddToAccuracyLog))]
+    [HarmonyPostfix]
+    private static void AddToAccuracyLogPostfix(ref NoteTimingAccuracy accuracy)
+    {
+        if (accuracy is NoteTimingAccuracy.Pending or NoteTimingAccuracy.Valid)
+        {
+            return;
+        }
+        
+        SocketApi.Broadcast("NoteTiming", accuracy.ToString());
     }
 }
