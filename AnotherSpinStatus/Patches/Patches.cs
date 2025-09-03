@@ -108,7 +108,7 @@ internal class Patches
         }
         
         Note note = playState.noteData.GetNote(noteIndex);
-        if (note.NoteType != NoteType.Match)
+        if (note.NoteType is not (NoteType.Match or NoteType.SectionContinuationOrEnd))
         {
             return;
         }
