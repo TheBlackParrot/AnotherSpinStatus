@@ -17,6 +17,7 @@ public struct MapInfo
     public string? FileReference { get; }
     public string Difficulty { get; }
     public int Rating { get; }
+    public int Duration { get; }
     public string? CoverArt { get; }
     // ReSharper restore MemberCanBePrivate.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
@@ -33,6 +34,7 @@ public struct MapInfo
         Difficulty = trackData.Difficulty.ToString();
         Rating = trackData.DifficultyRating;
         IsCustom = metadata.isCustom;
+        Duration = trackData.GameplayEndTick.ToSecondsInt();
         
         string? reference = metadataHandle.UniqueName;
         if (!string.IsNullOrEmpty(reference))
