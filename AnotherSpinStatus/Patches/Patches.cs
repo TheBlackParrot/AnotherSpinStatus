@@ -30,8 +30,14 @@ internal class Patches
 
     [HarmonyPatch(typeof(PlayState), nameof(PlayState.Complete))]
     [HarmonyPostfix]
-    private static void CompletePostfix(ref bool success)
+    // ReSharper disable once InconsistentNaming
+    private static void CompletePostfix(PlayState __instance, ref bool success)
     {
+        if (__instance.currentTrackTick >= __instance.trackData.GameplayEndTick)
+        {
+            BroadcastScoreUpdate(__instance);
+        }
+        
         SocketApi.Broadcast("Complete", success ? "Passed" : "Failed");
     }
 
@@ -133,19 +139,6 @@ internal class Patches
         }
         
         BroadcastScoreUpdate(playState);
-    }
-
-    [HarmonyPatch(typeof(PlayState), nameof(PlayState.Complete))]
-    [HarmonyPostfix]
-    // ReSharper disable once InconsistentNaming
-    private static void CompletePostfix(PlayState __instance)
-    {
-        if (__instance.currentTrackTick < __instance.trackData.GameplayEndTick)
-        {
-            return;
-        }
-
-        BroadcastScoreUpdate(__instance);
     }
 
     [HarmonyPatch(typeof(DomeHud), nameof(DomeHud.AddToAccuracyLog))]
