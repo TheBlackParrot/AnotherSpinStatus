@@ -135,6 +135,19 @@ internal class Patches
         BroadcastScoreUpdate(playState);
     }
 
+    [HarmonyPatch(typeof(PlayState), nameof(PlayState.Complete))]
+    [HarmonyPostfix]
+    // ReSharper disable once InconsistentNaming
+    private static void CompletePostfix(PlayState __instance)
+    {
+        if (__instance.currentTrackTick < __instance.trackData.GameplayEndTick)
+        {
+            return;
+        }
+
+        BroadcastScoreUpdate(__instance);
+    }
+
     [HarmonyPatch(typeof(DomeHud), nameof(DomeHud.AddToAccuracyLog))]
     [HarmonyPostfix]
     private static void AddToAccuracyLogPostfix(ref NoteTimingAccuracy accuracy)
