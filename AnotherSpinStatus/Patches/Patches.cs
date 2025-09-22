@@ -73,6 +73,25 @@ internal class Patches
         }
     }
 
+    [HarmonyPatch(typeof(SpinSectionLogic), nameof(SpinSectionLogic.UpdateSpinSectionState))]
+    [HarmonyPatch(typeof(ScratchSectionLogic), nameof(ScratchSectionLogic.UpdateScratchSectionState))]
+    [HarmonyPatch(typeof(FreestyleSectionLogic), nameof(FreestyleSectionLogic.UpdateFreestyleSectionState))]
+    [HarmonyPostfix]
+    private static void EndOfSpinningPostfix(PlayState playState, int noteIndex)
+    {
+        SustainNoteState sustainNoteState = playState.scoreState.GetSustainState(noteIndex);
+        if(!sustainNoteState.IsDoneWith)
+        {
+            return;
+        }
+        if (playState.currentTrackTick != sustainNoteState.doneWithAtTick)
+        {
+            return;
+        }
+
+        BroadcastScoreUpdate(playState);
+    }
+
     [HarmonyPatch(typeof(Wheel), nameof(Wheel.OnNoteTapped))]
     [HarmonyPatch(typeof(Wheel), nameof(Wheel.OnSuccessfulBeat))]
     [HarmonyPostfix]
