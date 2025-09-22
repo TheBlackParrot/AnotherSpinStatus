@@ -7,6 +7,8 @@ namespace AnotherSpinStatus.Patches;
 [HarmonyPatch]
 internal class Patches
 {
+    internal static int Overbeats = 0;
+    
     [HarmonyPatch(typeof(Track), nameof(Track.StopTrack))]
     [HarmonyPostfix]
     private static void StopTrackPostfix()
@@ -151,5 +153,15 @@ internal class Patches
         }
         
         SocketApi.Broadcast("NoteTiming", accuracy.ToString());
+    }
+
+    [HarmonyPatch(typeof(ScoreState), nameof(ScoreState.ClearMultiplier))]
+    [HarmonyPostfix]
+    private static void ClearMultiplierPostfix(bool wasFromOverbeat)
+    {
+        if (wasFromOverbeat)
+        {
+            Overbeats++;
+        }
     }
 }

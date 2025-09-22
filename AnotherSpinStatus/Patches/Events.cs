@@ -19,6 +19,7 @@ internal static class Events
 
     private static void TrackOnStartedPlayingTrack(PlayableTrackDataHandle dataHandle, PlayState[] states)
     {
+        Patches.Overbeats = 0;
         SocketApi.Broadcast("Scene", "Playing");
     }
 

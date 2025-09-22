@@ -12,7 +12,8 @@ public readonly struct GameplayState(PlayState playState)
     public float Health => playState.health / (float)playState.MaxHealth;
     public int Combo => playState.combo;
     public int NotesHit => playState.scoreState.CurrentTotals.totalNotesHit;
-    public int NotesMissed => playState.scoreState.cachedTotals.totalHittableNotes - playState.scoreState.cachedTotals.totalNotesHit;
+    public int NotesMissed =>
+        (playState.scoreState.cachedTotals.totalHittableNotes - playState.scoreState.cachedTotals.totalNotesHit) + Patches.Patches.Overbeats;
     public string FullComboState => playState.fullComboState.ToString();
     public int NotesHitPerfectly => playState.scoreState.CurrentTotals.flawlessPlusCount;
     public float Elapsed => playState.currentTrackTime;
