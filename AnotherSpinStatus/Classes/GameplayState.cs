@@ -1,5 +1,8 @@
-﻿namespace AnotherSpinStatus.Classes;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace AnotherSpinStatus.Classes;
+
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 public readonly struct GameplayState(PlayState playState)
 {
     public int Score => playState.scoreState.TotalScore;
