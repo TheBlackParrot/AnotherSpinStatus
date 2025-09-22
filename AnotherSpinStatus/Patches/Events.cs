@@ -11,6 +11,12 @@ internal static class Events
         Track.OnStartedPlayingTrack += TrackOnStartedPlayingTrack;
     }
 
+    public static void Dispose()
+    {
+        Track.OnLoadedIntoTrack -= TrackOnLoadedIntoTrack;
+        Track.OnStartedPlayingTrack -= TrackOnStartedPlayingTrack;
+    }
+
     private static void TrackOnStartedPlayingTrack(PlayableTrackDataHandle dataHandle, PlayState[] states)
     {
         SocketApi.Broadcast("Scene", "Playing");

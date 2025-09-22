@@ -58,7 +58,13 @@ internal class SocketApi : IDisposable
 
     public void Dispose()
     {
-        _socketServer?.Stop();
+        if (_socketServer == null)
+        {
+            return;
+        }
+        
+        _socketServer.RemoveWebSocketService("/");
+        _socketServer.Stop();
         Plugin.Log.LogInfo("WebSocket server stopped");
     }
 }
