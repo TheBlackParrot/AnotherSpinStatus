@@ -15,4 +15,5 @@ public readonly struct GameplayState(PlayState playState)
     public int NotesMissed => playState.scoreState.cachedTotals.totalHittableNotes - playState.scoreState.cachedTotals.totalNotesHit;
     public string FullComboState => playState.fullComboState.ToString();
     public int NotesHitPerfectly => playState.scoreState.CurrentTotals.flawlessPlusCount;
+    public float Elapsed => playState.currentTrackTime;
 }
