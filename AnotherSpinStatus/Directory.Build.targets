@@ -73,7 +73,7 @@
             <OldZips Include="$(OutputZipDirectory)*.zip"/>
         </ItemGroup>
         <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(OutputFilesDirectory)$(AssemblyName).dll" />
-        <Copy SourceFiles="$(ProjectDir)bin\Debug\$(TargetFramework)\websocket-sharp.dll" DestinationFolder="$(OutputFilesDirectory)"
+        <Copy SourceFiles="$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\websocket-sharp.dll" DestinationFolder="$(OutputFilesDirectory)"
               SkipUnchangedFiles="true"/>
         <Delete Files="@(OldZips)" TreatErrorsAsWarnings="true" ContinueOnError="true" />
         <ZipDir DirectoryName="$(OutputFilesDirectory)" ZipFileName="$(OutputZipDirectory)$(AssemblyName)-$(Version).zip" />

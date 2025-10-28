@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <AssemblyName>AnotherSpinStatus</AssemblyName>
         <Product>AnotherSpinStatus</Product>
         <Version>0.0.1</Version>
@@ -26,6 +26,9 @@
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
         <Optimize>true</Optimize>
+        
+        <!-- this doesn't seem to be an issue so i'm choosing to ignore it -->
+        <NoWarn>MSB3277</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Spin Rhythm')">
@@ -43,7 +46,7 @@
         </PackageReference>
         <PackageReference Include="BepInEx.Core" Version="5.*"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*"/>
-        <PackageReference Include="UnityEngine.Modules" Version="6000.0.37" IncludeAssets="compile"/>
+        <PackageReference Include="UnityEngine.Modules" Version="6000.2.7" IncludeAssets="compile"/>
     </ItemGroup>
 
     <ItemGroup>
