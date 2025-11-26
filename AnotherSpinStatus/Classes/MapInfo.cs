@@ -30,7 +30,9 @@ public struct MapInfo
         Title = metadata.title;
         Subtitle = metadata.subtitle;
         Artist = metadata.artistName;
-        Charter = metadata.charter;
+        Charter = metadata.isCustom
+            ? metadata.charter
+            : (trackData.Difficulty == TrackData.DifficultyType.RemiXD ? metadata.charter : string.Empty);
         Difficulty = trackData.Difficulty.ToString();
         Rating = trackData.DifficultyRating;
         IsCustom = metadata.isCustom;
