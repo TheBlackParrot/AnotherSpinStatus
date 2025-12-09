@@ -164,9 +164,12 @@ internal class Patches
     [HarmonyPostfix]
     private static void ClearMultiplierPostfix(bool wasFromOverbeat)
     {
-        if (wasFromOverbeat)
+        if (!wasFromOverbeat)
         {
-            Overbeats++;
+            return;
         }
+        
+        Overbeats++;
+        SocketApi.Broadcast("NoteTiming", "Overbeat");
     }
 }
