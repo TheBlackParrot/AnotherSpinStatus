@@ -145,8 +145,13 @@ internal class Patches
 
     [HarmonyPatch(typeof(DomeHud), nameof(DomeHud.AddToAccuracyLog))]
     [HarmonyPostfix]
-    private static void AddToAccuracyLogPostfix(ref NoteTimingAccuracy accuracy)
+    // ReSharper disable once InconsistentNaming
+    private static void AddToAccuracyLogPostfix(DomeHud __instance, ref NoteTimingAccuracy accuracy)
     {
+        if (__instance.PlayState.previewState != PreviewState.NotPreview)
+        {
+            return;
+        }
         if (accuracy is NoteTimingAccuracy.Pending or NoteTimingAccuracy.Valid)
         {
             return;
