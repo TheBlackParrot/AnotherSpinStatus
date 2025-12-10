@@ -41,6 +41,9 @@ public struct MapInfo
     public int Rating { get; }
     public int Duration { get; }
     public string? CoverArt { get; }
+    public int MaxScore { get; }
+    public int? BestScore { get; }
+    public decimal? BestAccuracy => BestScore == null ? null : MetadataHandleExtensions.GetPercentageToDisplay(BestScore.Value, MaxScore);
     // ReSharper restore MemberCanBePrivate.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
     
@@ -110,5 +113,14 @@ public struct MapInfo
         CoverArt = Convert.ToBase64String(ImageConversion
             .EncodeNativeArrayToJPG(finalCover.GetRawTextureData<byte>(), finalCover.graphicsFormat,
                 (uint)finalCover.width, (uint)finalCover.height, 0u, Plugin.CoverArtQuality.Value).ToArray());
+
+        MaxScore = metadataHandle.GetMaxPossibleScoreForDifficulty(trackData.Difficulty);
+        // ReSharper disable once InvertIf
+        if (metadataHandle.Stats != null)
+        {
+            BestScore = metadataHandle.GetBestScoreForDifficulty(trackData.Difficulty) == 0
+                ? null
+                : metadataHandle.GetBestScoreForDifficulty(trackData.Difficulty);
+        }
     }
 }
