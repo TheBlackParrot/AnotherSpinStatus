@@ -1,12 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace AnotherSpinStatus.Classes;
 
 public struct MapInfo
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    private enum DlcAbbreviations
+    {
+        BG = 0, // Base game
+        MC = 1000, // Monstercat
+        CH = 2000, // Chillhop
+        SP = 3000, // Supporter Pack
+        IN = 4000 // Indie Pack
+    }
+    private static readonly Dictionary<DlcAbbreviations, string> DlcNames = new()
+    {
+        { DlcAbbreviations.BG, "Base Game" },
+        { DlcAbbreviations.MC, "Monstercat DLC" },
+        { DlcAbbreviations.CH, "Chillhop DLC" },
+        { DlcAbbreviations.SP, "Supporter Pack DLC" },
+        { DlcAbbreviations.IN, "Indie Pack DLC" }
+    };
+    
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable MemberCanBePrivate.Global
     public string Title { get; }
@@ -14,6 +35,7 @@ public struct MapInfo
     public string Artist { get; }
     public string Charter { get; }
     public bool IsCustom { get; }
+    public string? Pack { get; set; }
     public string? FileReference { get; }
     public string Difficulty { get; }
     public int Rating { get; }
@@ -36,6 +58,7 @@ public struct MapInfo
         Difficulty = trackData.Difficulty.ToString();
         Rating = trackData.DifficultyRating;
         IsCustom = metadata.isCustom;
+        Pack = IsCustom ? null : DlcNames[(DlcAbbreviations)metadata.trackOrder - (metadata.trackOrder % 1000)];
         Duration = trackData.GameplayEndTick.ToSecondsInt();
         
         string? reference = metadataHandle.UniqueName;
