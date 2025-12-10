@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace AnotherSpinStatus.Classes;
 
-public struct MapInfo
+public readonly struct MapInfo
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     private enum DlcAbbreviations
@@ -35,7 +34,7 @@ public struct MapInfo
     public string Artist { get; }
     public string Charter { get; }
     public bool IsCustom { get; }
-    public string? Pack { get; set; }
+    public string? Pack { get; }
     public string? FileReference { get; }
     public string Difficulty { get; }
     public int Rating { get; }

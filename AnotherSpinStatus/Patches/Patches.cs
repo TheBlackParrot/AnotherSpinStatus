@@ -7,7 +7,7 @@ namespace AnotherSpinStatus.Patches;
 [HarmonyPatch]
 internal class Patches
 {
-    internal static int Overbeats = 0;
+    internal static int Overbeats;
     
     [HarmonyPatch(typeof(Track), nameof(Track.StopTrack))]
     [HarmonyPostfix]
