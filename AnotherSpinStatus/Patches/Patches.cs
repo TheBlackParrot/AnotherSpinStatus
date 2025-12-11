@@ -160,15 +160,10 @@ internal class Patches
         SocketApi.Broadcast("NoteTiming", accuracy.ToString());
     }
 
-    [HarmonyPatch(typeof(ScoreState), nameof(ScoreState.ClearMultiplier))]
+    [HarmonyPatch(typeof(ScoreState), nameof(ScoreState.AddOverbeat))]
     [HarmonyPostfix]
-    private static void ClearMultiplierPostfix(bool wasFromOverbeat)
+    private static void AddOverbeatPostfix()
     {
-        if (!wasFromOverbeat)
-        {
-            return;
-        }
-        
         Overbeats++;
         SocketApi.Broadcast("NoteTiming", "Overbeat");
     }
